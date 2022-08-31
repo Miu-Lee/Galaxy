@@ -36,6 +36,12 @@ let points = null
 const colorInside = new THREE.Color(parameters.insideColor)
 const colorOutside = new THREE.Color(parameters.outsideColor)
 
+// const cube = new THREE.Mesh(
+//     new THREE.BoxGeometry(1,1,1),
+//     new THREE.MeshBasicMaterial({color: colorInside})
+// )
+// scene.add(cube)
+
 function generateGalaxy () {
     /**
      * Destroy Old Galaxy
@@ -107,14 +113,22 @@ function generateGalaxy () {
 generateGalaxy()
 
 gui.add(parameters, 'count').min(2000).max(100000).step(100).onFinishChange(generateGalaxy)
-gui.add(parameters,'size').min(0.01).max(0.1).step(0.01).onFinishChange(generateGalaxy)
+gui.add(parameters,'size').min(0.005).max(0.04).step(0.01).onFinishChange(generateGalaxy)
 gui.add(parameters,'radius').min(1).max(20).step(0.05).onFinishChange(generateGalaxy)
 gui.add(parameters,'branches').min(2).max(20).step(1).onFinishChange(generateGalaxy)
 gui.add(parameters,'spin').min(-5).max(5).step(0.01).onFinishChange(generateGalaxy)
 gui.add(parameters,'randomness').min(0).max(2).step(0.001).onFinishChange(generateGalaxy)
 gui.add(parameters,'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
-gui.addColor(parameters,'insideColor').onFinishChange(generateGalaxy)
-gui.addColor(parameters,'outsideColor').onFinishChange(generateGalaxy)
+gui.addColor(parameters,'insideColor').onChange(
+    function(){
+        colorInside.set(parameters.insideColor)
+    }
+).onFinishChange(generateGalaxy)
+gui.addColor(parameters,'outsideColor').onChange(
+    function(){
+        colorOutside.set(parameters.outsideColor)
+    }
+).onFinishChange(generateGalaxy)
 
 /**
  * Sizes
